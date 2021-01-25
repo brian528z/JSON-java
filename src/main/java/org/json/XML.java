@@ -857,4 +857,16 @@ public class XML {
                         + ">" + string + "</" + tagName + ">";
 
     }
+    
+    
+    //New method 1
+    public static JSONObject toJSONObject(Reader reader, JSONPointer path) {
+    	
+    
+    }
+    
+    //New method 2
+    public static JSONObject to JSONObject(Reader reader, JSONPointer path, JSONObject replacement) {
+    	
+    }
 }
