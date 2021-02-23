@@ -46,6 +46,7 @@ import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * A JSONObject is an unordered collection of name/value pairs. Its external
@@ -2645,4 +2646,62 @@ public class JSONObject {
                 "JSONObject[" + quote(key) + "] is not a " + valueType + " (" + value + ")."
                 , cause);
     }
+    
+
+    
+    // Milestone 4 
+    
+    Stream.Builder<Object> builder = Stream.builder();
+    
+    //method to add each jsonobject to builder
+    private void addToStream(String path, Object o) {
+    	if (o instanceof JSONArray) {
+    		for (int i = 0; i < ((JSONArray) o).toList().size(); i++) {
+    			Object temp = ((JSONArray) o).get(i);
+    			if (temp instanceof JSONArray || temp instanceof JSONObject) {
+    				addToStream(path + "/" + i, temp);
+    			}
+    			else {
+    				Map<String, Object> map = new HashMap<String, Object>();
+    				map.put(path + "/" + i, temp);
+    				builder.add(map);
+    			}
+    		}
+    	}
+    	//jsonobject
+    	else {
+    		for (Entry<String, Object> entry : ((JSONObject) o).entrySet()) {
+    			if(entry.getValue() instanceof JSONArray || entry.getValue() instanceof JSONObject) {
+    				addToStream(path + "/" + entry.getKey(), entry.getValue());
+    			}
+    			else {
+    				Map<String,Object> map = new HashMap<String, Object>();
+    				map.put(path + "/" + entry.getKey(), entry.getValue());
+    				builder.add(map);
+    			}
+    		}
+    	}
+    }
+    
+    //main toStream method for unit tests
+    public Stream<Object> toStream() {
+    	for (Entry<String,Object> entry : this.map.entrySet()) {
+    		try {
+    			//null case
+    			if (entry.equals(NULL)) {
+    				builder.add(null);
+    			}
+    			
+    			
+    			if (entry.getValue() instanceof JSONArray || entry.getValue() instanceof JSONObject) {
+    				addToStream(entry.getKey(),entry.getValue());
+    			}
+    			else {
+    				builder.add(entry);
+    			}
+    		} catch (Exception e) {  }
+    	}
+    	return builder.build();
+    }
+    
 }

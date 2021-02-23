@@ -32,6 +32,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.stream.Stream;
 
 
 /**
@@ -1579,6 +1580,4 @@ public class XML {
             }
         }
     }
-    
-    
 }
