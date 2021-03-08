@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<test>
+    <fake id="bk101">
+      <author>this is fake</author>
+      <title>fake title</title>
+      <genre>fake genre</genre>
+      <price>12345</price>
+      <publish_date>2000-10-01</publish_date>
+      <description>testing purposes</description>
+   </fake>
+    <book id="bk101">
+      <author>Gambardella, Matthew</author>
+      <title>XML Developer's Guide</title>
+ 

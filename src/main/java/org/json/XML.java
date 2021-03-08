@@ -26,6 +26,7 @@ SOFTWARE.
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.Writer;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -84,6 +85,9 @@ public class XML {
     public static boolean replace = false;
     public static Iterator hm;
     public static boolean replaced = false;
+    
+    public static JSONObject orig = null;
+    public static Exception e = null;
 
     /**
      * Creates an iterator for navigating Code Points in a string instead of
@@ -1579,5 +1583,58 @@ public class XML {
                 }
             }
         }
+    }
+    
+    
+    //Part 5
+    
+    public interface FUNCTION1 {
+    	void run(JSONObject test);
+    }
+    
+    public interface FUNCTION2 {
+    	void run(Exception test);
+    }
+    
+    public static JSONObject toJSONObject(Reader aReader, FUNCTION1 result, FUNCTION2 except) {
+    	orig = null;
+    	
+    	try {
+    		orig = toJSONObject(aReader);
+    	} catch(Exception e1) {e= e1;}
+    	
+		Thread[] threads = new Thread[2];
+		
+		threads[0] = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("Starting thread 0");
+				if (orig != null) {
+					result.run(orig);
+				}
+			}
+		});
+		threads[1] = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("Starting thread 1");
+				except.run(e);
+			}
+		});
+		
+
+		threads[0].start();
+		threads[1].start();
+		
+		for (int i = 0; i < 5; i++) {
+		      try {
+		      threads[i].join();
+		      System.out.println("Ending thread " + i);
+		      } catch(Exception ex) {}
+	    }
+		
+		
+		return orig;
+    	
     }
 }

@@ -50,4 +50,17 @@ New Functions :
  - toStream
  
 ------
-Created a Stream<Object> that holds information of the path and the actual value of each JSONObject.
+Created a Stream Object that holds information of the path and the actual value of each JSONObject.
+
+
+Milestone5
+==========
+
+Unit tests : XMLTestMilestone5.java
+
+- Test 1  = Correct output with NO exception
+- Test 2 = Incorrect output with exception
+
+------
+- Result 1 = result.json
+- Result 2  = result2.json
